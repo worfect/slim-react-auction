@@ -1,0 +1,3 @@
+certbot_email: senchenkov.93@gmail.com
+certbot_hosts:
+  - worfect.ru

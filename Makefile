@@ -1,7 +1,7 @@
 d-restart: d-down d-up
 d-init: d-down-clear d-pull d-build d-up
 d-build-prod: build-gateway build-frontend build-api
-d--prod: push-gateway push-frontend push-api
+d-push-prod: push-gateway push-frontend push-api
 
 d-up:
 	docker-compose up -d
@@ -31,10 +31,8 @@ build-frontend:
 	docker --log-level=debug build --pull --file=frontend/docker/production/nginx/Dockerfile --tag=${REGISTRY}/auction-frontend:${IMAGE_TAG} frontend
 
 build-api:
-	docker --log-level=debug build --pull --file=api/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG} api
 	docker --log-level=debug build --pull --file=api/docker/production/nginx/Dockerfile --tag=${REGISTRY}/auction-api:${IMAGE_TAG} api
-
-
+	docker --log-level=debug build --pull --file=api/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG} api
 
 push-gateway:
 	docker push ${REGISTRY}/auction-gateway:${IMAGE_TAG}
