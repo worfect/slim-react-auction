@@ -1,3 +1,7 @@
 /.idea
+
 api/.idea
+api/vendor
+
 frontend/.idea
+

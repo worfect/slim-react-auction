@@ -21,7 +21,8 @@ d-list:
 d-pull:
 	docker-compose pull
 
-
+d-cli-run:
+	docker-compose run --rm api-php-cli $(p)
 
 
 build-gateway:
@@ -33,6 +34,7 @@ build-frontend:
 build-api:
 	docker --log-level=debug build --pull --file=api/docker/production/nginx/Dockerfile --tag=${REGISTRY}/auction-api:${IMAGE_TAG} api
 	docker --log-level=debug build --pull --file=api/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG} api
+	docker --log-level=debug build --pull --file=api/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/auction-api-php-cli:${IMAGE_TAG} api
 
 push-gateway:
 	docker push ${REGISTRY}/auction-gateway:${IMAGE_TAG}
@@ -43,6 +45,7 @@ push-frontend:
 push-api:
 	docker push ${REGISTRY}/auction-api:${IMAGE_TAG}
 	docker push ${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG}
+	docker push ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
 
 deploy:
 	ssh ${HOST} -p ${PORT} 'rm -rf site_${BUILD_NUMBER}'
