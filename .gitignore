@@ -2,6 +2,7 @@
 
 api/.idea
 api/vendor
+api/var
 
 frontend/.idea
 

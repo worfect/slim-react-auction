@@ -64,3 +64,9 @@ rollback:
 	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up --build --remove-orphans -d'
 	ssh ${HOST} -p ${PORT} 'rm -f site'
 	ssh ${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
+
+
+api-check:
+	docker-compose run --rm api-php-cli composer lint
+	docker-compose run --rm api-php-cli composer check
+	docker-compose run --rm api-php-cli composer psalm
