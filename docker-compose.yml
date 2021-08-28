@@ -33,6 +33,7 @@ services:
     environment:
       APP_ENV: dev
       APP_DEBUG: 1
+      PHP_IDE_CONFIG: serverName=API
     volumes:
       - ./api:/app
 
@@ -45,3 +46,11 @@ services:
       APP_DEBUG: 1
     volumes:
       - ./api:/app
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 122.122.222.0/28
