@@ -10,10 +10,11 @@
          verbose="true">
     <testsuites>
         <testsuite name="unit">
-            <directory suffix="Test.php">tests/Unit</directory>
+            <directory>src/Auth/Test/Unit</directory>
+            <directory>tests/Unit</directory>
         </testsuite>
         <testsuite name="functional">
-            <directory suffix="Test.php">tests/Functional</directory>
+            <directory>tests/Functional</directory>
         </testsuite>
     </testsuites>
 

@@ -19,7 +19,7 @@ class RequestTest extends TestCase
 {
     public function testSuccess(): void
     {
-        $user = new User(
+        $user = User::requestJoinByEmail(
             $id = Id::generate(),
             $date = new DateTimeImmutable(),
             $email = new Email('mail@example.com'),
@@ -32,5 +32,8 @@ class RequestTest extends TestCase
         self::assertEquals($email, $user->getEmail());
         self::assertEquals($hash, $user->getPasswordHash());
         self::assertEquals($token, $user->getJoinConfirmToken());
+
+        self::assertTrue($user->isWait());
+        self::assertFalse($user->isActive());
     }
 }
