@@ -45,7 +45,7 @@ class Token
         return $this->expires;
     }
 
-    private function isExpiredTo(DateTimeImmutable $date): bool
+    public function isExpiredTo(DateTimeImmutable $date): bool
     {
         return $this->expires <= $date;
     }
