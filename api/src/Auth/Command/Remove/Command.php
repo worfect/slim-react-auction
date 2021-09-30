@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Command\JoinByNetwork;
+namespace App\Auth\Command\Remove;
 
 class Command
 {

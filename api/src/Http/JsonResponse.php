@@ -10,6 +10,10 @@ use Slim\Psr7\Response;
 
 class JsonResponse extends Response
 {
+    /**
+     * @throws \JsonException
+     * @param  mixed $data
+     */
     public function __construct($data, int $status = 200)
     {
         parent::__construct(

@@ -22,6 +22,9 @@ class Handler
         $this->flusher = $flusher;
     }
 
+    /**
+     * @param Command $command
+     */
     public function handle(Command $command): void
     {
         $identity = new NetworkIdentity($command->network, $command->identity);
