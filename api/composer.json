@@ -5,9 +5,12 @@
   "require": {
     "php": "^7.4",
     "ext-json": "*",
+    "doctrine/orm": "^2.6.2",
+    "laminas/laminas-config-aggregator": "^1.6",
     "php-di/php-di": "^6.3",
     "ramsey/uuid": "^4.2",
     "slim/psr7": "^1.4",
+    "symfony/cache": "^5.2",
     "slim/slim": "^4.8",
     "symfony/console": "^5.3"
   },
