@@ -6,12 +6,26 @@ namespace App\Auth\Test\Unit\Entity\User;
 
 use App\Auth\Entity\User\Status;
 use PHPUnit\Framework\TestCase;
+use InvalidArgumentException;
 
 /**
  * @covers Status
  */
 class StatusTest extends TestCase
 {
+    public function testSuccess(): void
+    {
+        $status = new Status($name = Status::WAIT);
+
+        self::assertEquals($name, $status->getName());
+    }
+
+    public function testIncorrect(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Status('none');
+    }
+
     public function testWait(): void
     {
         $status = Status::wait();
