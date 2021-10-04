@@ -52,7 +52,7 @@ class User
      */
     private ?Token $passwordResetToken = null;
     /**
-     * @ORM\Column(type="auth_user_email", unique=true)
+     * @ORM\Column(type="auth_user_email", nullable=true)
      */
     private ?Email $newEmail = null;
     /**
