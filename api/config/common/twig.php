@@ -1,16 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
+use App\FeatureToggle\FeatureFlagTwigExtension;
+use App\Frontend\FrontendUrlTwigExtension;
+use App\Translator\TranslatorTwigExtension;
 use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Extension\ExtensionInterface;
 use Twig\Loader\FilesystemLoader;
+use function App\env;
 
 return [
-    Environment::class => function (ContainerInterface $container): Environment {
+    Environment::class => static function (ContainerInterface $container): Environment {
         /**
          * @psalm-suppress MixedArrayAccess
-         * @psalm-var array{
+         * @var array{
          *     debug:bool,
          *     template_dirs:array<string,string>,
          *     cache_dir:string,
@@ -52,7 +58,9 @@ return [
                 FilesystemLoader::MAIN_NAMESPACE => __DIR__ . '/../../templates',
             ],
             'cache_dir' => __DIR__ . '/../../var/cache/twig',
-            'extensions' => [],
+            'extensions' => [
+                FrontendUrlTwigExtension::class,
+            ],
         ],
     ],
 ];

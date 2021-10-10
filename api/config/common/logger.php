@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 return [
-    LoggerInterface::class => function (ContainerInterface $container) {
+    LoggerInterface::class => function (ContainerInterface $container): LoggerInterface {
         /**
          * @psalm-suppress MixedArrayAccess
          * @psalm-var array{

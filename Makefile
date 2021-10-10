@@ -3,6 +3,13 @@ d-init: d-down-clear d-pull d-build d-up
 d-build-prod: build-gateway build-frontend build-api
 d-push-prod: push-gateway push-frontend push-api
 
+test: api-test api-fixtures
+test-coverage: api-test-coverage api-fixtures
+test-unit: api-test-unit
+test-unit-coverage: api-test-unit-coverage
+test-functional: api-test-functional api-fixtures
+test-functional-coverage: api-test-functional-coverage api-fixtures
+
 d-up:
 	docker-compose up -d
 
@@ -81,6 +88,8 @@ api-check:
 	docker-compose run --rm api-php-cli composer psalm
 	docker-compose run --rm api-php-cli composer app orm:validate-schema
 	docker-compose run --rm api-php-cli composer test
+
+
 
 api-test:
 	docker-compose run --rm api-php-cli composer test

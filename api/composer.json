@@ -20,6 +20,8 @@
     "monolog/monolog": "^2.0"
   },
   "require-dev": {
+    "guzzlehttp/guzzle": "^6.5",
+    "dms/phpunit-arraysubset-asserts": "^0.2.0",
     "overtrue/phplint": "^2.0",
     "phpunit/phpunit": "^9.5",
     "squizlabs/php_codesniffer": "3.*",

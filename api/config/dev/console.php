@@ -24,12 +24,13 @@ return [
             $config['fixture_paths'],
         );
     },
+
     'config' => [
         'console' => [
             'commands' => [
-                SchemaTool\DropCommand::class,
-
                 FixturesLoadCommand::class,
+
+                SchemaTool\DropCommand::class,
 
                 Migrations\Tools\Console\Command\DiffCommand::class,
                 Migrations\Tools\Console\Command\GenerateCommand::class,
