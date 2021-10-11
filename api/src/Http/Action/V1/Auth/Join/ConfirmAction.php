@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Action\V1\Auth\Join;
 
-use App\Auth\Command\JoinByEmail\Request\Command;
-use App\Auth\Command\JoinByEmail\Request\Handler;
+use App\Auth\Command\JoinByEmail\Confirm\Command;
+use App\Auth\Command\JoinByEmail\Confirm\Handler;
 use App\Http\EmptyResponse;
-use App\Http\JsonResponse;
-use DomainException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class RequestAction implements RequestHandlerInterface
+class ConfirmAction implements RequestHandlerInterface
 {
     private Handler $handler;
 
@@ -24,14 +22,16 @@ class RequestAction implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        /**
+         * @psalm-var array{token:?string} $data
+         */
         $data = $request->getParsedBody();
 
         $command = new Command();
-        $command->email = $data['email'] ?? '';
-        $command->password = $data['password'] ?? '';
+        $command->token = $data['token'] ?? '';
 
         $this->handler->handle($command);
 
-        return new EmptyResponse(201);
+        return new EmptyResponse(200);
     }
 }
