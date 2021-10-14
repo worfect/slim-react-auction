@@ -87,4 +87,41 @@ class RequestTest extends WebTestCase
             ],
         ], Json::decode($body));
     }
+
+    public function testNotValidLang(): void
+    {
+        $response = $this->app()->handle(self::json('POST', '/v1/auth/join', [
+            'email' => 'not-email',
+            'password' => '',
+        ])->withHeader('Accept-Language', 'es;q=0.9, ru;q=0.8, *;q=0.5'));
+
+        self::assertEquals(422, $response->getStatusCode());
+        self::assertJson($body = (string)$response->getBody());
+
+        $data = Json::decode($body);
+
+        self::assertEquals([
+            'errors' => [
+                'email' => 'Значение адреса электронной почты недопустимо.',
+                'password' => 'Значение не должно быть пустым.',
+            ],
+        ], $data);
+    }
+
+    public function testExistingLang(): void
+    {
+        $response = $this->app()->handle(self::json('POST', '/v1/auth/join', [
+            'email' => 'existing@app.test',
+            'password' => 'new-password',
+        ])->withHeader('Accept-Language', 'ru'));
+
+        self::assertEquals(409, $response->getStatusCode());
+        self::assertJson($body = (string)$response->getBody());
+
+        $data = Json::decode($body);
+
+        self::assertEquals([
+            'message' => 'Пользователь уже существует.',
+        ], $data);
+    }
 }

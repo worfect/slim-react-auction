@@ -18,7 +18,10 @@
     "finesse/swiftmailer-defaults-plugin": "^2.0",
     "twig/twig": "^3.0",
     "monolog/monolog": "^2.0",
-    "symfony/validator": "^5.0"
+    "symfony/validator": "^5.0",
+    "symfony/translation": "^5.0",
+    "symfony/config": "^5.0",
+    "ptlis/conneg": "^4.0"
   },
   "require-dev": {
     "guzzlehttp/guzzle": "^6.5",
