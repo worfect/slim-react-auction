@@ -1,7 +1,10 @@
 d-restart: d-down d-up
-d-init: d-down-clear d-pull d-build d-up
-d-build-prod: build-gateway build-frontend build-api
-d-push-prod: push-gateway push-frontend push-api
+init: d-down-clear \
+	api-clear frontend-clear \
+	d-pull d-build d-up \
+	api-init frontend-init
+build-prod: build-gateway build-frontend build-api
+push-prod: push-gateway push-frontend push-api
 
 test: api-test api-fixtures
 test-coverage: api-test-coverage api-fixtures
@@ -124,7 +127,18 @@ api-wait-db:
 	docker-compose run --rm api-php-cli wait-for-it api-postgres:5432 -t 30
 
 api-migrations:
-	docker-compose run --rm api-php-cli composer app migrations:migrate
+	docker-compose run --rm api-php-cli composer app migrations:migrate --no-interaction
 
 api-fixtures:
 	docker-compose run --rm api-php-cli composer app fixtures:load
+
+frontend-clear:
+	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'rm -rf .ready build'
+
+frontend-init: frontend-yarn-install frontend-ready
+
+frontend-yarn-install:
+	docker-compose run --rm frontend-node-cli yarn install
+
+frontend-ready:
+	docker run --rm -v ${PWD}/frontend:/app -w /app alpine touch .ready
