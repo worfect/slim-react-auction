@@ -1,14 +1,14 @@
 ---
 -   name: Check if certificate already exists
     stat:
-      path: /etc/letsencrypt/live/{{ item }}/cert.pem
+        path: /etc/letsencrypt/live/{{ item }}/cert.pem
     register: letsencrypt_certs
     with_items: "{{ certbot_hosts }}"
 
 -   name: Check if server is running
     wait_for:
-      port: 80
-      timeout: 1
+        port: 80
+        timeout: 1
     register: port_check
     ignore_errors: yes
 
@@ -21,6 +21,5 @@
     with_items: "{{ letsencrypt_certs.results }}"
     when: not item.stat.exists
 
--   name: Down certbot Apache # ЭТЕНШЕН чет как-то вроде не даунит
+-   name: Down certbot Apache
     shell: "docker rm -f apache"
-    when: port_check.failed == true

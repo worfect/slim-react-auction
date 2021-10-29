@@ -6,7 +6,7 @@ init: d-down-clear \
 build-prod: build-gateway build-frontend build-api
 push-prod: push-gateway push-frontend push-api
 
-test: api-test api-fixtures
+test: api-test api-fixtures frontend-test
 test-coverage: api-test-coverage api-fixtures
 test-unit: api-test-unit
 test-unit-coverage: api-test-unit-coverage
@@ -71,10 +71,10 @@ deploy:
 	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_PASSWORD=${API_MAILER_PASSWORD}" >> .env'
 	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_FROM_EMAIL=${API_MAILER_FROM_EMAIL}" >> .env'
 	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose pull'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up --build -d api-postgres api-php-cli'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose run api-php-cli wait-for-it api-postgres:5432 -t 60'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose run api-php-cli php bin/app.php migrations:migrate --no-interaction'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up --build --remove-orphans -d'
+	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up -d --build  api-postgres api-php-cli'
+	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose run --rm api-php-cli wait-for-it api-postgres:5432 -t 60'
+	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose run --rm api-php-cli php bin/app.php migrations:migrate --no-interaction'
+	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up -d --build --remove-orphans'
 	ssh ${HOST} -p ${PORT} 'rm -f site'
 	ssh ${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
 
@@ -142,3 +142,19 @@ frontend-yarn-install:
 
 frontend-ready:
 	docker run --rm -v ${PWD}/frontend:/app -w /app alpine touch .ready
+
+frontend-test:
+	docker-compose run --rm frontend-node-cli yarn test --watchAll=false
+
+frontend-test-watch:
+	docker-compose run --rm frontend-node-cli yarn test
+
+frontend-lint:
+	docker-compose run --rm frontend-node-cli yarn eslint
+	docker-compose run --rm frontend-node-cli yarn stylelint
+
+frontend-eslint-fix:
+	docker-compose run --rm frontend-node-cli yarn eslint-fix
+
+frontend-pretty:
+	docker-compose run --rm frontend-node-cli yarn prettier
