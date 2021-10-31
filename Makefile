@@ -1,6 +1,6 @@
 d-restart: d-down d-up
 init: d-down-clear \
-	api-clear frontend-clear \
+	api-clear frontend-clear cucumber-clear\
 	d-pull d-build d-up \
 	api-init frontend-init
 build-prod: build-gateway build-frontend build-api
@@ -12,6 +12,13 @@ test-unit: api-test-unit
 test-unit-coverage: api-test-unit-coverage
 test-functional: api-test-functional api-fixtures
 test-functional-coverage: api-test-functional-coverage api-fixtures
+
+test-smoke: api-fixtures cucumber-clear cucumber-smoke
+test-e2e:
+	make api-fixtures
+	make cucumber-clear
+	- make cucumber-e2e
+	make cucumber-report
 
 d-up:
 	docker-compose up -d
@@ -158,3 +165,21 @@ frontend-eslint-fix:
 
 frontend-pretty:
 	docker-compose run --rm frontend-node-cli yarn prettier
+
+cucumber-e2e:
+	docker-compose run --rm cucumber-node-cli yarn e2e
+
+cucumber-lint:
+	docker-compose run --rm cucumber-node-cli yarn lint
+
+cucumber-lint-fix:
+	docker-compose run --rm cucumber-node-cli yarn lint-fix
+
+cucumber-clear:
+	docker run --rm -v ${PWD}/cucumber:/app -w /app alpine sh -c 'rm -rf var/*'
+
+cucumber-report:
+	docker-compose run --rm cucumber-node-cli yarn report
+
+cucumber-smoke:
+	docker-compose run --rm cucumber-node-cli yarn smoke
