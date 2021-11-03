@@ -20,7 +20,7 @@ pipeline {
     }
     post {
         always {
-            sh "make docker-down-clear || true"
+            sh "make d-down-clear || true"
         }
     }
 }
