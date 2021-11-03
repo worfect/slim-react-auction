@@ -30,7 +30,7 @@ d-down-clear:
 	docker-compose down -v --remove-orphans
 
 d-build:
-	docker-compose up --build -d
+	docker-compose build --pull
 
 d-list:
 	docker ps -a
