@@ -9,18 +9,18 @@ pipeline {
     stages {
         stage("Init") {
             steps {
-                sh "docker-compose down -v --remove-orphans"
+                sh "make init"
             }
         }
         stage("Down") {
             steps {
-                sh "docker-compose down -v --remove-orphans"
+                sh "make d-down-clear"
             }
         }
     }
     post {
         always {
-            sh "docker-compose down -v --remove-orphans || true"
+            sh "make d-down-clear || true"
         }
     }
 }
