@@ -63,7 +63,7 @@ pipeline {
             }
         }
     }
-    tage("Build") {
+    stage("Build") {
         steps {
             sh "make build-prod"
         }
