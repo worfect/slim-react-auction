@@ -2,7 +2,7 @@ d-restart: d-down d-up
 init: d-down-clear \
 	api-clear frontend-clear cucumber-clear\
 	d-pull d-build d-up \
-	api-init frontend-init
+	api-init frontend-init cucumber-init
 build-prod: build-gateway build-frontend build-api
 push-prod: push-gateway push-frontend push-api
 
@@ -173,6 +173,17 @@ frontend-eslint-fix:
 frontend-pretty:
 	docker-compose run --rm frontend-node-cli yarn prettier
 
+cucumber-clear:
+	docker run --rm -v ${PWD}/cucumber:/app -w /app alpine sh -c 'rm -rf var/*'
+
+cucumber-init: cucumber-yarn-install
+
+cucumber-yarn-install:
+	docker-compose run --rm cucumber-node-cli yarn install
+
+cucumber-yarn-upgrade:
+	docker-compose run --rm cucumber-node-cli yarn upgrade
+
 cucumber-e2e:
 	docker-compose run --rm cucumber-node-cli yarn e2e
 
@@ -181,9 +192,6 @@ cucumber-lint:
 
 cucumber-lint-fix:
 	docker-compose run --rm cucumber-node-cli yarn lint-fix
-
-cucumber-clear:
-	docker run --rm -v ${PWD}/cucumber:/app -w /app alpine sh -c 'rm -rf var/*'
 
 cucumber-report:
 	docker-compose run --rm cucumber-node-cli yarn report
