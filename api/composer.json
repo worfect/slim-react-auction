@@ -53,7 +53,7 @@
   "prefer-stable": true,
   "scripts": {
     "lint": "phplint",
-    "check": "phpcs",
+    "cs-check": "phpcs",
     "fix": "phpcbf",
     "psalm": "psalm",
     "test": "phpunit --colors=always",

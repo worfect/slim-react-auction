@@ -93,13 +93,20 @@ rollback:
 
 
 api-check:
-	docker-compose run --rm api-php-cli composer lint
-	docker-compose run --rm api-php-cli composer check
+	api-lint
+	api-analyze
+	api-validate-schema
+	api-test
+
+api-analyze:
 	docker-compose run --rm api-php-cli composer psalm
+
+api-validate-schema:
 	docker-compose run --rm api-php-cli composer app orm:validate-schema
-	docker-compose run --rm api-php-cli composer test
 
-
+api-lint:
+	docker-compose run --rm api-php-cli composer lint
+	docker-compose run --rm api-php-cli composer cs-check
 
 api-test:
 	docker-compose run --rm api-php-cli composer test
