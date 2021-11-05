@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers FrontendUrlGenerator
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class FrontendUrlGeneratorTest extends TestCase
 {

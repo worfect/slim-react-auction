@@ -12,6 +12,7 @@ use Twig\Loader\ArrayLoader;
 
 /**
  * @covers FrontendUrlTwigExtension
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 class FrontendUrlTwigExtensionTest extends TestCase
 {

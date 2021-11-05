@@ -14,6 +14,9 @@ use Slim\Interfaces\CallableResolverInterface;
  */
 class LogErrorHandler extends ErrorHandler
 {
+    /**
+     * @psalm-var LoggerInterface
+     */
     protected $logger;
 
     public function __construct(

@@ -44,8 +44,10 @@ class TranslatorLocale implements MiddlewareInterface
         if (empty($accept)) {
             return $default;
         }
-
         $negotiation = new Negotiation();
+        /**
+         * @psalm-suppress MixedArgumentTypeCoercion
+         */
         $locale = $negotiation->languageBest($accept, implode(',', $allowed));
 
         return in_array($locale, $allowed, true) ? $locale : $default;

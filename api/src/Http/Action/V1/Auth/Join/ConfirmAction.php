@@ -40,4 +40,3 @@ class ConfirmAction implements RequestHandlerInterface
         return new EmptyResponse(200);
     }
 }
-

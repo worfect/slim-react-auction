@@ -11,6 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Psr7\Factory\ServerRequestFactory;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @covers DomainExceptionHandler

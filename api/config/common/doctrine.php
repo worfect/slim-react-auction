@@ -24,9 +24,9 @@ return [
          *     dev_mode:bool,
          *     proxy_dir:string,
          *     cache_dir:?string,
-         *     types:array<string,string>,
+         *     types:array<string,class-string<Type>>,
          *     subscribers:string[],
-         *     connection:array
+         *     connection:array<string, mixed>
          * } $settings
          */
         $settings = $container->get('config')['doctrine'];
@@ -90,4 +90,3 @@ return [
         ],
     ],
 ];
-
