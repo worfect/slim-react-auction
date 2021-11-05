@@ -5,6 +5,8 @@ pipeline {
     }
     environment {
         CI = 'true'
+        REGISTRY = credentials("REGISTRY")
+        IMAGE_TAG = sh(returnStdout: true, script: "echo '${env.BUILD_TAG}' | sed 's/%2F/-/g'").trim()
     }
     stages {
         stage("Init") {
@@ -61,9 +63,44 @@ pipeline {
             }
         }
     }
+    tage("Build") {
+        steps {
+            sh "make build-prod"
+        }
+    }
+    stage("Testing") {
+                stages {
+                    stage("Build") {
+                        steps {
+                            sh "make testing-build"
+                        }
+                    }
+                    stage("Init") {
+                        steps {
+                            sh "make testing-init"
+                        }
+                    }
+                    stage("Smoke") {
+                        steps {
+                            sh "make testing-smoke"
+                        }
+                    }
+                    stage("E2E") {
+                        steps {
+                            sh "make testing-e2e"
+                        }
+                    }
+                    stage("Down") {
+                        steps {
+                            sh "make testing-down-clear"
+                        }
+                    }
+                }
+            }
     post {
         always {
             sh "make d-down-clear || true"
+            sh "make testing-down-clear || true"
         }
     }
 }

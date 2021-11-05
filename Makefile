@@ -200,7 +200,7 @@ cucumber-smoke:
 	docker-compose run --rm cucumber-node-cli yarn smoke
 
 testing: testing-build testing-init testing-smoke testing-e2e testing-down-clear
-testing-build: build-prod testing-build-gateway testing-build-testing-api-php-cli testing-build-cucumber
+testing-build: testing-build-gateway testing-build-testing-api-php-cli testing-build-cucumber
 
 
 testing-build-gateway:
