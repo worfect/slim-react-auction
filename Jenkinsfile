@@ -96,11 +96,11 @@ pipeline {
                 }
             }
         }
-        post {
-            always {
-                sh "make d-down-clear || true"
-                sh "make testing-down-clear || true"
-            }
+    }
+    post {
+        always {
+            sh "make d-down-clear || true"
+            sh "make testing-down-clear || true"
         }
     }
 }
