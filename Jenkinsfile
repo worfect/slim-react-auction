@@ -69,34 +69,34 @@ pipeline {
         }
     }
     stage("Testing") {
-                stages {
-                    stage("Build") {
-                        steps {
-                            sh "make testing-build"
-                        }
-                    }
-                    stage("Init") {
-                        steps {
-                            sh "make testing-init"
-                        }
-                    }
-                    stage("Smoke") {
-                        steps {
-                            sh "make testing-smoke"
-                        }
-                    }
-                    stage("E2E") {
-                        steps {
-                            sh "make testing-e2e"
-                        }
-                    }
-                    stage("Down") {
-                        steps {
-                            sh "make testing-down-clear"
-                        }
-                    }
+        stages {
+            stage("Build") {
+                steps {
+                    sh "make testing-build"
                 }
             }
+            stage("Init") {
+                steps {
+                    sh "make testing-init"
+                }
+            }
+            stage("Smoke") {
+                steps {
+                    sh "make testing-smoke"
+                }
+            }
+            stage("E2E") {
+                steps {
+                    sh "make testing-e2e"
+                }
+            }
+            stage("Down") {
+                steps {
+                    sh "make testing-down-clear"
+                }
+            }
+        }
+    }
     post {
         always {
             sh "make d-down-clear || true"
