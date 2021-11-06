@@ -65,32 +65,31 @@ push-api:
 	docker push ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
 
 deploy:
-	ssh ${HOST} -p ${PORT} 'rm -rf site_${BUILD_NUMBER}'
-	ssh ${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}'
-	scp -P ${PORT} docker-compose-production.yml ${HOST}:site_${BUILD_NUMBER}/docker-compose.yml
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "COMPOSE_PROJECT_NAME=auction" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "REGISTRY=${REGISTRY}" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "IMAGE_TAG=${IMAGE_TAG}" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_DB_PASSWORD=${API_DB_PASSWORD}" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_HOST=${API_MAILER_HOST}" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_PORT=${API_MAILER_PORT}" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_USER=${API_MAILER_USER}" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_PASSWORD=${API_MAILER_PASSWORD}" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_FROM_EMAIL=${API_MAILER_FROM_EMAIL}" >> .env'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose pull'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up -d --build  api-postgres api-php-cli'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose run --rm api-php-cli wait-for-it api-postgres:5432 -t 60'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose run --rm api-php-cli php bin/app.php migrations:migrate --no-interaction'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up -d --build --remove-orphans'
-	ssh ${HOST} -p ${PORT} 'rm -f site'
-	ssh ${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -rf site_${BUILD_NUMBER}'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}'
+	scp -o StrictHostKeyChecking=no -P ${PORT} docker-compose-production.yml root@${HOST}:site_${BUILD_NUMBER}/docker-compose.yml
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "COMPOSE_PROJECT_NAME=auction" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "REGISTRY=${REGISTRY}" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "IMAGE_TAG=${IMAGE_TAG}" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_DB_PASSWORD=${API_DB_PASSWORD}" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_HOST=${API_MAILER_HOST}" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_PORT=${API_MAILER_PORT}" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_USER=${API_MAILER_USER}" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_PASSWORD=${API_MAILER_PASSWORD}" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_FROM_EMAIL=${API_MAILER_FROM_EMAIL}" >> .env'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose pull'
+	ssh -o StrictHostKeyChecking=no root@${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up -d --build  api-postgres api-php-cli'
+	ssh -o StrictHostKeyChecking=no root@${PORT} 'cd site_${BUILD_NUMBER} && docker-compose run --rm api-php-cli wait-for-it api-postgres:5432 -t 60'
+	ssh -o StrictHostKeyChecking=no root@${PORT} 'cd site_${BUILD_NUMBER} && docker-compose run --rm api-php-cli php bin/app.php migrations:migrate --no-interaction'
+	ssh -o StrictHostKeyChecking=no root@${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up -d --build --remove-orphans'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -f site'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
 
 rollback:
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose pull'
-	ssh ${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up --build --remove-orphans -d'
-	ssh ${HOST} -p ${PORT} 'rm -f site'
-	ssh ${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
-
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose pull'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up --build --remove-orphans -d'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -f site'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
 
 api-check:
 	api-lint
