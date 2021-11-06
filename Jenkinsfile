@@ -110,7 +110,7 @@ pipeline {
                 ]) {
                     sh "docker login -u=$USER -p='$PASSWORD' $REGISTRY"
                 }
-                sh "make push"
+                sh "make push-prod"
             }
         }
         stage ('Prod') {
