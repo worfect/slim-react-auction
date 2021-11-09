@@ -31,7 +31,6 @@
       name: docker-ce
       state: present
       update_cache: yes
-    notify: Start docker on boot
 
 -   name: Install Docker Compose
     get_url:

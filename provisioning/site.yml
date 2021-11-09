@@ -1,16 +1,27 @@
 ---
 -   name: Provision Site
-    hosts: all
+    hosts: manager
     remote_user: root
     vars_files:
       - envs/certbot.yml
     tasks:
       -   import_tasks: tasks/setup_docker.yml
+      -   import_tasks: tasks/setup_docker_sdk.yml
       -   import_tasks: tasks/setup_certbot.yml
       -   import_tasks: tasks/generate_certificates.yml
+      -   import_tasks: tasks/init_swarm.yml
     handlers:
       -   name: Start docker on boot
           systemd:
             name: docker
             state: started
             enabled: yes
+
+-   name: Provision worker
+    hosts: workers
+    remote_user: root
+    tasks:
+      - import_tasks: tasks/update_worker.yml
+      - import_tasks: tasks/setup_docker.yml
+      - import_tasks: tasks/setup_docker_sdk.yml
+      - import_tasks: tasks/swarm_worker.yml
