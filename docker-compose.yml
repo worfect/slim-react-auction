@@ -7,16 +7,10 @@ services:
       - "8080:8080"
       - "8081:8081"
       - "8082:8082"
-    depends_on:
-      - frontend
-      - api
-      - mailer
 
   frontend:
     build:
       context: frontend/docker/development/nginx
-    depends_on:
-      - frontend-node
 
   frontend-node:
     build:
@@ -38,8 +32,6 @@ services:
       dockerfile: development/nginx/Dockerfile
     volumes:
       - ./api:/app
-    depends_on:
-      - api-php-fpm
 
   api-php-fpm:
     build:

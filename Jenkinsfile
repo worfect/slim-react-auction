@@ -139,6 +139,7 @@ pipeline {
         always {
             sh "make d-down-clear || true"
             sh "make testing-down-clear || true"
+            sh "make deploy-clean || true"
         }
     }
 }
