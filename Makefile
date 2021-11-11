@@ -82,11 +82,7 @@ rollback:
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -f site'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
 
-api-check:
-	api-lint
-	api-analyze
-	api-validate-schema
-	api-test
+api-check: api-lint api-analyze api-validate-schema api-test
 
 api-analyze:
 	docker-compose run --rm api-php-cli composer psalm
@@ -191,7 +187,6 @@ cucumber-smoke:
 
 testing: testing-build testing-init testing-smoke testing-e2e testing-down-clear
 testing-build: testing-build-gateway testing-build-testing-api-php-cli testing-build-cucumber
-
 
 testing-build-gateway:
 	docker --log-level=debug build --pull --file=gateway/docker/testing/nginx/Dockerfile --tag=${REGISTRY}/auction-testing-gateway:${IMAGE_TAG} gateway/docker

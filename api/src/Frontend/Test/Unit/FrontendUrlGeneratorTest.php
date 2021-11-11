@@ -8,7 +8,7 @@ use App\Frontend\FrontendUrlGenerator;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers FrontendUrlGenerator
+ * @covers \App\Frontend\FrontendUrlGenerator
  * @psalm-suppress PropertyNotSetInConstructor
  */
 class FrontendUrlGeneratorTest extends TestCase
