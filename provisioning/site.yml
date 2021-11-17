@@ -4,12 +4,14 @@
     remote_user: root
     vars_files:
       - envs/certbot.yml
+      - envs/swap.yml
     tasks:
       -   import_tasks: tasks/setup_docker.yml
       -   import_tasks: tasks/setup_docker_sdk.yml
       -   import_tasks: tasks/setup_certbot.yml
       -   import_tasks: tasks/generate_certificates.yml
       -   import_tasks: tasks/init_swarm.yml
+      -   import_tasks: tasks/swap.yml
     handlers:
       -   name: Start docker on boot
           systemd:
