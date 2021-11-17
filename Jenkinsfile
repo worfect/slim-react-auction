@@ -90,7 +90,7 @@ pipeline {
             parallel {
                 stage("API") {
                     when {
-                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || return env.GIT_DIFF_API }
+                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || env.GIT_DIFF_API }
                     }
                     steps {
                         sh "make api-test"
@@ -98,7 +98,7 @@ pipeline {
                 }
                 stage("Front") {
                     when {
-                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || return env.GIT_DIFF_FRONTEND }
+                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || env.GIT_DIFF_FRONTEND }
                     }
                     steps {
                         sh "make frontend-test"
