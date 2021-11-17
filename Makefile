@@ -6,19 +6,22 @@ init: d-down-clear \
 build-prod: build-gateway build-frontend build-api
 push-prod: push-gateway push-frontend push-api
 
+########################################################################################################################
+
 test: api-test api-fixtures frontend-test
 test-coverage: api-test-coverage api-fixtures
 test-unit: api-test-unit
 test-unit-coverage: api-test-unit-coverage
 test-functional: api-test-functional api-fixtures
 test-functional-coverage: api-test-functional-coverage api-fixtures
-
 test-smoke: api-fixtures cucumber-clear cucumber-smoke
 test-e2e:
 	make api-fixtures
 	make cucumber-clear
 	- make cucumber-e2e
 	make cucumber-report
+
+########################################################################################################################
 
 d-up:
 	docker-compose up -d
@@ -41,6 +44,7 @@ d-pull:
 d-cli-run:
 	docker-compose run --rm api-php-cli $(p)
 
+########################################################################################################################
 
 build-gateway:
 	docker --log-level=debug build --pull --file=gateway/docker/production/nginx/Dockerfile --tag=${REGISTRY}/auction-gateway:${IMAGE_TAG} gateway/docker
@@ -82,6 +86,9 @@ rollback:
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -f site'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
 
+########################################################################################################################
+
+api-init: api-permissions api-composer-install api-wait-db api-migrations api-fixtures
 api-check: api-lint api-analyze api-validate-schema api-test
 
 api-analyze:
@@ -92,7 +99,7 @@ api-validate-schema:
 
 api-lint:
 	docker-compose run --rm api-php-cli composer lint
-	docker-compose run --rm api-php-cli composer cs-check
+	docker-compose run --rm api-php-cli composer phpcs
 
 api-test:
 	docker-compose run --rm api-php-cli composer test
@@ -115,8 +122,6 @@ api-test-functional-coverage:
 api-clear:
 	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/cache/* var/log/* var/test/*'
 
-api-init: api-permissions api-composer-install api-wait-db api-migrations api-fixtures
-
 api-permissions:
 	docker run --rm -v ${PWD}/api:/app -w /app alpine chmod 777 var/cache var/log var/test
 
@@ -134,6 +139,8 @@ api-fixtures:
 
 frontend-clear:
 	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'rm -rf .ready build'
+
+########################################################################################################################
 
 frontend-init: frontend-yarn-install frontend-ready
 
@@ -162,6 +169,8 @@ frontend-pretty:
 cucumber-clear:
 	docker run --rm -v ${PWD}/cucumber:/app -w /app alpine sh -c 'rm -rf var/*'
 
+########################################################################################################################
+
 cucumber-init: cucumber-yarn-install
 
 cucumber-yarn-install:
@@ -184,6 +193,8 @@ cucumber-report:
 
 cucumber-smoke:
 	docker-compose run --rm cucumber-node-cli yarn smoke
+
+########################################################################################################################
 
 testing: testing-build testing-init testing-smoke testing-e2e testing-down-clear
 testing-build: testing-build-gateway testing-build-testing-api-php-cli testing-build-cucumber

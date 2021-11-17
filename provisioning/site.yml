@@ -17,11 +17,11 @@
             state: started
             enabled: yes
 
--   name: Provision worker
-    hosts: workers
-    remote_user: root
-    tasks:
-      - import_tasks: tasks/update_worker.yml
-      - import_tasks: tasks/setup_docker.yml
-      - import_tasks: tasks/setup_docker_sdk.yml
-      - import_tasks: tasks/swarm_worker.yml
+#-   name: Provision worker
+#    hosts: workers
+#    remote_user: root
+#    tasks:
+#      - import_tasks: tasks/update_worker.yml
+#      - import_tasks: tasks/setup_docker.yml
+#      - import_tasks: tasks/setup_docker_sdk.yml
+#      - import_tasks: tasks/swarm_worker.yml

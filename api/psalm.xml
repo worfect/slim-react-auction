@@ -5,6 +5,11 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+        <pluginClass class="Lctrs\PsalmPsrContainerPlugin\Plugin"/>
+    </plugins>
+
     <projectFiles>
         <directory name="bin" />
         <directory name="config" />
@@ -24,14 +29,5 @@
             </errorLevel>
         </PropertyNotSetInConstructor>
 
-        <!-- https://github.com/sebastianbergmann/phpunit/issues/3742 -->
-        <InternalMethod>
-            <errorLevel type="suppress">
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::method" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::with" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturn" />
-                <referencedMethod name="PHPUnit\Framework\MockObject\Builder\InvocationMocker::willReturnCallback" />
-            </errorLevel>
-        </InternalMethod>
     </issueHandlers>
 </psalm>

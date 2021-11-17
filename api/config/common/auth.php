@@ -12,9 +12,7 @@ use Psr\Container\ContainerInterface;
 
 return [
     UserRepository::class => function (ContainerInterface $container): UserRepository {
-        /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
-        /** @var EntityRepository $repo */
         $repo = $em->getRepository(User::class);
         return new UserRepository($em, $repo);
     },

@@ -9,34 +9,34 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    deploy:
-      mode: replicated
-      replicas: 2
-      update_config:
-        parallelism: 1
-        delay: 10s
-      placement:
-        constraints: [ node.role == manager ]
+#    deploy:
+#      mode: replicated
+#      replicas: 1
+#      update_config:
+#        parallelism: 1
+#        delay: 10s
+#      placement:
+#        constraints: [ node.role == manager ]
 
   frontend:
     image: ${REGISTRY}/auction-frontend:${IMAGE_TAG}
     restart: always
-    deploy:
-      mode: replicated
-      replicas: 2
-      update_config:
-        parallelism: 1
-        delay: 10s
+#    deploy:
+#      mode: replicated
+#      replicas: 1
+#      update_config:
+#        parallelism: 1
+#        delay: 10s
 
   api:
     image: ${REGISTRY}/auction-api:${IMAGE_TAG}
     restart: always
-    deploy:
-      mode: replicated
-      replicas: 2
-      update_config:
-        parallelism: 1
-        delay: 5s
+#    deploy:
+#      mode: replicated
+#      replicas: 1
+#      update_config:
+#        parallelism: 1
+#        delay: 5s
 
   api-php-fpm:
     image: ${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG}
@@ -53,12 +53,12 @@ services:
       MAILER_PASSWORD: ${API_MAILER_PASSWORD}
       MAILER_ENCRYPTION: tls
       FRONTEND_URL: https://worfect.ru
-    deploy:
-      mode: replicated
-      replicas: 2
-      update_config:
-        parallelism: 1
-        delay: 5s
+#    deploy:
+#      mode: replicated
+#      replicas: 1
+#      update_config:
+#        parallelism: 1
+#        delay: 5s
 
   api-migration:
     image: ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
@@ -92,10 +92,10 @@ services:
       POSTGRES_DB: app
     volumes:
       - api-postgres:/var/lib/postgresql/data
-    deploy:
-      placement:
-        constraints: [ node.role == manager ]
-      endpoint_mode: dnsrr
+#    deploy:
+#      placement:
+#        constraints: [ node.role == manager ]
+#      endpoint_mode: dnsrr
 
 volumes:
   api-postgres:
