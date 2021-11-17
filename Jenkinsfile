@@ -7,14 +7,45 @@ pipeline {
         CI = 'true'
         REGISTRY = credentials("REGISTRY")
         IMAGE_TAG = sh(returnStdout: true, script: "echo '${env.BUILD_TAG}' | sed 's/%2F/-/g'").trim()
+        GIT_DIFF_BASE_COMMIT = sh(
+            returnStdout: true,
+            script: "echo ${env.GIT_PREVIOUS_SUCCESSFUL_COMMIT ?: '`git rev-list HEAD | tail -n 1`'}"
+        ).trim()
+        GIT_DIFF_API = sh(
+            returnStdout: true,
+            script: "git diff --name-only ${env.GIT_DIFF_BASE_COMMIT} HEAD -- api || echo 'all'"
+        ).trim()
+        GIT_DIFF_FRONTEND = sh(
+            returnStdout: true,
+            script: "git diff --name-only ${env.GIT_DIFF_BASE_COMMIT} HEAD -- frontend || echo 'all'"
+        ).trim()
+        GIT_DIFF_CUCUMBER = sh(
+            returnStdout: true,
+            script: "git diff --name-only ${env.GIT_DIFF_BASE_COMMIT} HEAD -- cucumber || echo 'all'"
+        ).trim()
+        GIT_DIFF_ROOT = sh(
+            returnStdout: true,
+            script: "{ git diff --name-only ${env.GIT_DIFF_BASE_COMMIT} HEAD -- . || echo 'all'; } | { grep -v / - || true; }"
+        ).trim()
     }
     stages {
         stage("Init") {
             steps {
-                sh "make init"
+                sh "touch .docker-images-before"
+                sh "make init-ci"
+                sh "docker-compose images > .docker-images-after"
+                script {
+                    DOCKER_DIFF = sh(
+                        returnStdout: true,
+                        script: "diff .docker-images-before .docker-images-after || true"
+                    ).trim()
+                }
             }
         }
         stage("Valid") {
+            when {
+                expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || env.GIT_DIFF_API }
+            }
             steps {
                 sh "make api-validate-schema"
             }
@@ -22,16 +53,25 @@ pipeline {
         stage("Lint") {
             parallel {
                 stage("API") {
+                    when {
+                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || env.GIT_DIFF_API }
+                    }
                     steps {
                         sh "make api-lint"
                     }
                 }
                 stage("Frontend") {
+                    when {
+                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || env.GIT_DIFF_FRONTEND }
+                    }
                     steps {
                         sh "make frontend-lint"
                     }
                 }
                 stage("Cucumber") {
+                     when {
+                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || env.GIT_DIFF_CUCUMBER }
+                    }
                     steps {
                         sh "make cucumber-lint"
                     }
@@ -39,6 +79,9 @@ pipeline {
             }
         }
         stage("Analyze") {
+            when {
+                expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || env.GIT_DIFF_API }
+            }
             steps {
                 sh "make api-analyze"
             }
@@ -46,11 +89,17 @@ pipeline {
         stage("Test") {
             parallel {
                 stage("API") {
+                    when {
+                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || return env.GIT_DIFF_API }
+                    }
                     steps {
                         sh "make api-test"
                     }
                 }
                 stage("Front") {
+                    when {
+                        expression { return DOCKER_DIFF || env.GIT_DIFF_ROOT || return env.GIT_DIFF_FRONTEND }
+                    }
                     steps {
                         sh "make frontend-test"
                     }
@@ -136,6 +185,9 @@ pipeline {
         }
     }
     post {
+        success {
+            sh "mv -f .docker-images-after .docker-images-before"
+        }
         always {
             sh "make d-down-clear || true"
             sh "make testing-down-clear || true"

@@ -1,5 +1,5 @@
-d-restart: d-down d-up
-init: d-down-clear \
+init: init-ci frontend-ready
+init-ci: d-down-clear \
 	api-clear frontend-clear cucumber-clear\
 	d-pull d-build d-up \
 	api-init frontend-init cucumber-init
@@ -22,6 +22,8 @@ test-e2e:
 	make cucumber-report
 
 ########################################################################################################################
+
+d-restart: d-down d-up
 
 d-up:
 	docker-compose up -d
@@ -142,7 +144,7 @@ frontend-clear:
 
 ########################################################################################################################
 
-frontend-init: frontend-yarn-install frontend-ready
+frontend-init: frontend-yarn-install
 
 frontend-yarn-install:
 	docker-compose run --rm frontend-node-cli yarn install
