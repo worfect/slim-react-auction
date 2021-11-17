@@ -16,7 +16,6 @@ return [
          */
         $config = $container->get('config')['console'];
 
-        /** @var EntityManagerInterface $em */
         $em = $container->get(EntityManagerInterface::class);
 
         return new FixturesLoadCommand(

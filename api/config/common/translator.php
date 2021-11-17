@@ -29,7 +29,7 @@ return [
     },
 
     TranslatorLocale::class => function (ContainerInterface $container): TranslatorLocale {
-        /** @var Translator $translator */
+
         $translator = $container->get(Translator::class);
         /**
          * @psalm-suppress MixedArrayAccess
