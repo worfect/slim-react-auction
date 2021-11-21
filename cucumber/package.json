@@ -1,8 +1,8 @@
 {
   "license": "MIT",
   "scripts": {
-    "smoke": "cucumber-js --tags @smoke --fail-fast --parallel 2",
-    "e2e": "cucumber-js --format json:var/report.json --parallel 2",
+    "smoke": "cucumber-js --tags @smoke --fail-fast",
+    "e2e": "cucumber-js --format json:var/report.json",
     "lint": "eslint --ext .js features",
     "lint-fix": "eslint --fix --ext .js features",
     "report": "node reporter.js"

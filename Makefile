@@ -162,8 +162,8 @@ frontend-lint:
 	docker-compose run --rm frontend-node-cli yarn eslint
 	docker-compose run --rm frontend-node-cli yarn stylelint
 
-frontend-eslint-fix:
-	docker-compose run --rm frontend-node-cli yarn eslint-fix
+frontend-lint-fix:
+	docker-compose run --rm frontend-node-cli yarn lint-fix
 
 frontend-pretty:
 	docker-compose run --rm frontend-node-cli yarn prettier
