@@ -5,9 +5,9 @@ const onPage = async function (uri) {
   return await this.page.goto('http://gateway:8080' + uri)
 }
 
-Given('I am on {string} page', { wrapperOptions: { retry: 2 }, timeout: 30000 }, onPage)
+Given('I am on {string} page', onPage)
 
-When('I open {string} page', { wrapperOptions: { retry: 2 }, timeout: 30000 }, onPage)
+When('I open {string} page', onPage)
 
 Then('I see {string}', async function (value) {
   await this.page.waitForFunction(

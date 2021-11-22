@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer')
 const { Before, After, Status } = require('@cucumber/cucumber')
 
-Before({ wrapperOptions: { retry: 2 }, timeout: 30000 }, async function () {
+Before(async function () {
   this.browser = await puppeteer.launch({
     args: [
       '--no-sandbox'

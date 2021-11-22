@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import styles from './JoinForm.module.css'
+import api, { parseError, parseErrors } from '../../Api'
+import { AlertError, AlertSuccess } from '../../Alert'
+import { InputError } from '../../Form'
 
 function JoinForm() {
   const [formData, setFormData] = useState({
@@ -8,6 +11,7 @@ function JoinForm() {
     agree: false,
   })
 
+  const [buttonActive, setButtonActive] = useState(true)
   const [errors, setErrors] = useState({})
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
@@ -28,69 +32,31 @@ function JoinForm() {
       return
     }
 
+    setButtonActive(false)
     setErrors({})
     setError(null)
     setSuccess(null)
 
-    fetch('/api/v1/auth/join', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
+    api
+      .post('/v1/auth/join', {
         email: formData.email,
         password: formData.password,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response
-        }
-        throw response
       })
       .then(() => {
         setSuccess('Confirm join by link in email.')
+        setButtonActive(true)
       })
       .catch(async (error) => {
-        if (error.status === 422) {
-          const data = await error.json()
-          setErrors(data.errors)
-          return
-        }
-
-        if (error.status) {
-          const type = error.headers.get('content-type')
-          if (type && type.includes('application/json')) {
-            const data = await error.json()
-            if (data.message) {
-              setError(data.message)
-              return
-            }
-          }
-        }
-
-        if (error.status) {
-          setError(error.statusText)
-          return
-        }
-
-        setError(error.message)
+        setErrors(await parseErrors(error))
+        setError(await parseError(error))
+        setButtonActive(true)
       })
   }
 
   return (
     <div data-testid="join-form" className={styles.joinForm}>
-      {error ? (
-        <div className="alert error" data-testid="alert-error">
-          {error}
-        </div>
-      ) : null}
-      {success ? (
-        <div className="alert success" data-testid="alert-success">
-          {success}
-        </div>
-      ) : null}
+      <AlertError message={error} />
+      <AlertSuccess message={success} />
 
       {!success ? (
         <form className="form" method="post" onSubmit={handleSubmit}>
@@ -106,11 +72,7 @@ function JoinForm() {
               onChange={handleChange}
               required
             />
-            {errors.email ? (
-              <div className="input-error" data-testid="violation">
-                {errors.email}
-              </div>
-            ) : null}
+            <InputError error={errors.email} />
           </div>
           <div className={'input-row' + (errors.password ? ' has-error' : '')}>
             <label htmlFor="password" className="input-label">
@@ -124,11 +86,7 @@ function JoinForm() {
               onChange={handleChange}
               required
             />
-            {errors.password ? (
-              <div className="input-error" data-testid="violation">
-                {errors.password}
-              </div>
-            ) : null}
+            <InputError error={errors.password} />
           </div>
           <div className={'input-row' + (errors.agree ? ' has-error' : '')}>
             <label>
@@ -141,14 +99,14 @@ function JoinForm() {
               />
               <small>I agree with privacy policy</small>
             </label>
-            {errors.agree ? (
-              <div className="input-error" data-testid="violation">
-                {errors.agree}
-              </div>
-            ) : null}
+            <InputError error={errors.agree} />
           </div>
           <div className="button-row">
-            <button type="submit" data-testid="join-button">
+            <button
+              type="submit"
+              data-testid="join-button"
+              disabled={!buttonActive}
+            >
               Join to Us
             </button>
           </div>
