@@ -11,7 +11,6 @@ use Slim\Middleware\ErrorMiddleware;
 
 return [
     ErrorMiddleware::class => static function (ContainerInterface $container): ErrorMiddleware {
-
         $callableResolver = $container->get(CallableResolverInterface::class);
         $responseFactory = $container->get(ResponseFactoryInterface::class);
         /**
@@ -39,7 +38,7 @@ return [
 
     'config' => [
         'errors' => [
-            'display_details' => (bool)getenv('APP_DEBUG')
+            'display_details' => (bool)getenv('APP_DEBUG'),
         ],
     ],
 ];

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Auth\Entity\User;
 
-use DomainException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use DomainException;
 
 class UserRepository
 {
@@ -40,8 +40,7 @@ class UserRepository
     }
 
     /**
-     * @param string $token
-     * @return User|object|null
+     * @return object|User|null
      * @psalm-return User|null
      */
     public function findByJoinConfirmToken(string $token): ?User
@@ -51,8 +50,7 @@ class UserRepository
     }
 
     /**
-     * @param string $token
-     * @return User|object|null
+     * @return object|User|null
      * @psalm-return User|null
      */
     public function findByPasswordResetToken(string $token): ?User
@@ -62,8 +60,7 @@ class UserRepository
     }
 
     /**
-     * @param string $token
-     * @return User|object|null
+     * @return object|User|null
      * @psalm-return User|null
      */
     public function findByNewEmailToken(string $token): ?User

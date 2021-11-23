@@ -12,7 +12,6 @@ class JsonResponse extends Response
 {
     /**
      * @throws \JsonException
-     * @param  mixed $data
      */
     public function __construct($data, int $status = 200)
     {

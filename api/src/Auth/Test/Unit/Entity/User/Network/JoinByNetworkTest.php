@@ -2,17 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Test\Unit\Entity\User\User;
+namespace App\Auth\Test\Unit\Entity\User\Network;
 
-use App\Auth\Entity\User\Network;
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Id;
+use App\Auth\Entity\User\Network;
 use App\Auth\Entity\User\Role;
 use App\Auth\Entity\User\User;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \App\Auth\Entity\User\User
+ *
+ * @internal
  */
 class JoinByNetworkTest extends TestCase
 {

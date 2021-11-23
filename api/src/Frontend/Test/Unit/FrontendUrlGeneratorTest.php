@@ -10,6 +10,8 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \App\Frontend\FrontendUrlGenerator
  * @psalm-suppress PropertyNotSetInConstructor
+ *
+ * @internal
  */
 class FrontendUrlGeneratorTest extends TestCase
 {

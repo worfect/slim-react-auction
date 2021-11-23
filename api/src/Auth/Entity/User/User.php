@@ -6,10 +6,10 @@ namespace App\Auth\Entity\User;
 
 use App\Auth\Service\PasswordHasher;
 use DateTimeImmutable;
-use DomainException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DomainException;
 
 /**
  * @ORM\Entity
@@ -249,13 +249,11 @@ class User
     public function getNetworks(): array
     {
         /** @var Network[] */
-        return $this->networks->map(static function (UserNetwork $network) {
-            return $network->getNetwork();
-        })->toArray();
+        return $this->networks->map(static fn (UserNetwork $network) => $network->getNetwork())->toArray();
     }
 
     /**
-     * @ORM\PostLoad()
+     * @ORM\PostLoad
      */
     public function checkEmbeds(): void
     {

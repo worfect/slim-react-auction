@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Auth\Command\JoinByEmail\Confirm;
 
-use App\Auth\Command\JoinByEmail\Confirm\Command;
 use App\Auth\Entity\User\UserRepository;
 use App\Flusher;
 use DateTimeImmutable;

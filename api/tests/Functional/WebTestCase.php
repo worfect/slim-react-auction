@@ -9,13 +9,15 @@ use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Loader;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
-use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 use Slim\Psr7\Factory\ServerRequestFactory;
 
+/**
+ * @internal
+ */
 class WebTestCase extends TestCase
 {
     private ?App $app = null;
@@ -42,7 +44,7 @@ class WebTestCase extends TestCase
     }
 
     /**
-     * @param array<string|int,string> $fixtures
+     * @param array<int|string,string> $fixtures
      */
     protected function loadFixtures(array $fixtures): void
     {

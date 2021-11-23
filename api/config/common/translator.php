@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Middleware\TranslatorLocale;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Translation\Loader\PhpFileLoader;
@@ -29,7 +31,6 @@ return [
     },
 
     TranslatorLocale::class => function (ContainerInterface $container): TranslatorLocale {
-
         $translator = $container->get(Translator::class);
         /**
          * @psalm-suppress MixedArrayAccess
@@ -48,13 +49,13 @@ return [
                     'xlf',
                     __DIR__ . '/../../vendor/symfony/validator/Resources/translations/validators.ru.xlf',
                     'ru',
-                    'validators'
+                    'validators',
                 ],
                 [
                     'php',
                     __DIR__ . '/../../translations/exceptions.ru.php',
                     'ru',
-                    'exceptions'
+                    'exceptions',
                 ],
             ],
         ],

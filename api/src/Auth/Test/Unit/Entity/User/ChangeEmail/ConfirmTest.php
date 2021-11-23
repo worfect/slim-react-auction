@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Test\Unit\Entity\User\User\ChangeEmail;
+namespace App\Auth\Test\Unit\Entity\User\ChangeEmail;
 
 use App\Auth\Entity\User\Email;
 use App\Auth\Entity\User\Token;
@@ -13,6 +13,8 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @covers \App\Auth\Entity\User\User
+ *
+ * @internal
  */
 class ConfirmTest extends TestCase
 {

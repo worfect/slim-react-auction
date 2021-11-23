@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Test\Unit\Entity\User\User\ResetPassword;
+namespace App\Auth\Test\Unit\Entity\User\ResetPassword;
 
 use App\Auth\Entity\User\Token;
 use App\Auth\Test\Builder\UserBuilder;
@@ -12,6 +12,8 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @covers \App\Auth\Entity\User\User
+ *
+ * @internal
  */
 class ResetTest extends TestCase
 {

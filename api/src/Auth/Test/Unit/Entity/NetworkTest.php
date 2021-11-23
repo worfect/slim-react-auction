@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Test\Unit\Entity\User;
+namespace App\Auth\Test\Unit\Entity;
 
 use App\Auth\Entity\User\Network;
 use InvalidArgumentException;
@@ -10,6 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \App\Auth\Entity\User\Network
+ *
+ * @internal
  */
 class NetworkTest extends TestCase
 {

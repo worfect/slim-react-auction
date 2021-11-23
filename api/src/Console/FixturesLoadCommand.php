@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console;
 
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -19,7 +21,6 @@ class FixturesLoadCommand extends Command
     private array $paths;
 
     /**
-     * @param EntityManagerInterface $em
      * @param string[] $paths
      */
     public function __construct(EntityManagerInterface $em, array $paths)
@@ -33,8 +34,7 @@ class FixturesLoadCommand extends Command
     {
         $this
             ->setName('fixtures:load')
-            ->setDescription('Load fixtures')
-        ;
+            ->setDescription('Load fixtures');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -49,7 +49,7 @@ class FixturesLoadCommand extends Command
 
         $executor = new ORMExecutor($this->em, new ORMPurger());
 
-        $executor->setLogger(static function (string $message) use ($output) {
+        $executor->setLogger(static function (string $message) use ($output): void {
             $output->writeln($message);
         });
 

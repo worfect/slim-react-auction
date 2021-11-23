@@ -7,8 +7,6 @@ namespace Test\Functional;
 class Json
 {
     /**
-     * @param string $data
-     * @return array
      * @throws \JsonException
      */
     public static function decode(string $data): array

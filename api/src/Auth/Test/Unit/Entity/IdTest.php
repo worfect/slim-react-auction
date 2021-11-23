@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Test\Unit\Entity\User;
+namespace App\Auth\Test\Unit\Entity;
 
 use App\Auth\Entity\User\Id;
 use InvalidArgumentException;
@@ -11,6 +11,8 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @covers \App\Auth\Entity\User\Id
+ *
+ * @internal
  */
 class IdTest extends TestCase
 {

@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Auth;
 use App\Auth\Entity\User\User;
 use App\Auth\Entity\User\UserRepository;
 use App\Auth\Service\Tokenizer;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Psr\Container\ContainerInterface;
 
 return [
@@ -30,7 +28,7 @@ return [
     'config' => [
         'auth' => [
             'token_ttl' => 'PT1H',
-        ]
+        ],
     ],
 
 ];

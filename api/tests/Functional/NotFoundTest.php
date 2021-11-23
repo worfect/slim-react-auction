@@ -6,8 +6,9 @@ namespace Test\Functional;
 
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
-
-
+/**
+ * @internal
+ */
 class NotFoundTest extends WebTestCase
 {
     use ArraySubsetAsserts;
@@ -18,7 +19,6 @@ class NotFoundTest extends WebTestCase
      */
     public function testNotFound(): void
     {
-
         $response = $this->app()->handle(self::json('GET', '/not-found'));
 
         self::assertEquals(404, $response->getStatusCode());
