@@ -3,8 +3,7 @@
   "type": "project",
   "license": "BSD-3-Clause",
   "require": {
-    "php": "^7.4",
-    "ext-json": "*",
+    "php": "^8.0",
     "doctrine/migrations": "^3.3",
     "doctrine/orm": "^2.6.2",
     "finesse/swiftmailer-defaults-plugin": "^2.0",

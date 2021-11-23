@@ -139,12 +139,12 @@ api-migrations:
 api-fixtures:
 	docker-compose run --rm api-php-cli composer app fixtures:load
 
-frontend-clear:
-	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'rm -rf .ready build'
-
 ########################################################################################################################
 
 frontend-init: frontend-yarn-install
+
+frontend-clear:
+	docker run --rm -v ${PWD}/frontend:/app -w /app alpine sh -c 'rm -rf .ready build'
 
 frontend-yarn-install:
 	docker-compose run --rm frontend-node-cli yarn install
@@ -168,12 +168,12 @@ frontend-lint-fix:
 frontend-pretty:
 	docker-compose run --rm frontend-node-cli yarn prettier
 
-cucumber-clear:
-	docker run --rm -v ${PWD}/cucumber:/app -w /app alpine sh -c 'rm -rf var/*'
-
 ########################################################################################################################
 
 cucumber-init: cucumber-yarn-install
+
+cucumber-clear:
+	docker run --rm -v ${PWD}/cucumber:/app -w /app alpine sh -c 'rm -rf var/*'
 
 cucumber-yarn-install:
 	docker-compose run --rm cucumber-node-cli yarn install
