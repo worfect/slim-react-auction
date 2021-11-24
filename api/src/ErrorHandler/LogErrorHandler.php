@@ -12,7 +12,7 @@ use Slim\Interfaces\CallableResolverInterface;
 /**
  * @psalm-suppress PropertyNotSetInConstructor
  */
-class LogErrorHandler extends ErrorHandler
+final class LogErrorHandler extends ErrorHandler
 {
     /**
      * @psalm-var LoggerInterface

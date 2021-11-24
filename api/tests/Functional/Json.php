@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Test\Functional;
 
-class Json
+use JsonException;
+
+final class Json
 {
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public static function decode(string $data): array
     {

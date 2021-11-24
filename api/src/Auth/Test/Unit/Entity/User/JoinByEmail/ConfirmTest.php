@@ -6,6 +6,7 @@ namespace App\Auth\Test\Unit\Entity\User\JoinByEmail;
 
 use App\Auth\Entity\User\Token;
 use App\Auth\Test\Builder\UserBuilder;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
@@ -14,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  *
  * @internal
  */
-class ConfirmTest extends TestCase
+final class ConfirmTest extends TestCase
 {
     public function testSuccess(): void
     {
@@ -85,7 +86,7 @@ class ConfirmTest extends TestCase
     {
         return new Token(
             Uuid::uuid4()->toString(),
-            new \DateTimeImmutable('+1 day')
+            new DateTimeImmutable('+1 day')
         );
     }
 }

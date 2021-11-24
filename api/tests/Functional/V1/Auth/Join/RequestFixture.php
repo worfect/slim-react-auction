@@ -13,7 +13,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 
-class RequestFixture extends AbstractFixture
+final class RequestFixture extends AbstractFixture
 {
     public function load(ObjectManager $manager): void
     {
@@ -22,7 +22,7 @@ class RequestFixture extends AbstractFixture
             $date = new DateTimeImmutable('-30 days'),
             new Email('existing@app.test'),
             'password-hash',
-            new Token($value = Uuid::uuid4()->toString(), $date->modify('+1 day'))
+            new Token(Uuid::uuid4()->toString(), $date->modify('+1 day'))
         );
 
         $manager->persist($user);

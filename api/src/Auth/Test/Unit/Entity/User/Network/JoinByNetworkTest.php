@@ -9,6 +9,7 @@ use App\Auth\Entity\User\Id;
 use App\Auth\Entity\User\Network;
 use App\Auth\Entity\User\Role;
 use App\Auth\Entity\User\User;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,13 +17,13 @@ use PHPUnit\Framework\TestCase;
  *
  * @internal
  */
-class JoinByNetworkTest extends TestCase
+final class JoinByNetworkTest extends TestCase
 {
     public function testSuccess(): void
     {
         $user = User::joinByNetwork(
             $id = Id::generate(),
-            $date = new \DateTimeImmutable(),
+            $date = new DateTimeImmutable(),
             $email = new Email('email@app.test'),
             $network = new Network('vk', '0000001')
         );

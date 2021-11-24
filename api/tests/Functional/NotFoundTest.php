@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace Test\Functional;
 
 use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
+use Exception;
+use JsonException;
 
 /**
  * @internal
  */
-class NotFoundTest extends WebTestCase
+final class NotFoundTest extends WebTestCase
 {
     use ArraySubsetAsserts;
 
     /**
-     * @throws \JsonException
-     * @throws \Exception
+     * @throws JsonException
+     * @throws Exception
      */
     public function testNotFound(): void
     {
