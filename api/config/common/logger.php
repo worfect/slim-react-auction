@@ -6,6 +6,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use function App\env;
 
 return [
     LoggerInterface::class => function (ContainerInterface $container): LoggerInterface {
@@ -36,7 +37,7 @@ return [
 
     'config' => [
         'logger' => [
-            'debug' => (bool)getenv('APP_DEBUG'),
+            'debug' => (bool)env('APP_DEBUG'),
             'file' => null,
             'stderr' => true,
         ],

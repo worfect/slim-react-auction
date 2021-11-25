@@ -15,9 +15,10 @@
 
   <testsuites>
     <testsuite name="unit">
-      <directory>src/Auth/Test/Unit</directory>
-      <directory>tests/Unit</directory>
-      <directory >src/Frontend/Test/Unit</directory>
+      <directory>src/Auth/Test</directory>
+      <directory>src/Frontend/Test</directory>
+      <directory>src/Http/Test</directory>
+      <directory>src/OAuth/Test</directory>
     </testsuite>
     <testsuite name="functional">
       <directory>tests/Functional</directory>
