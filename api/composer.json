@@ -22,7 +22,8 @@
     "symfony/console": "^5.3",
     "symfony/translation": "^5.0",
     "symfony/validator": "^5.0",
-    "twig/twig": "^3.0"
+    "twig/twig": "^3.0",
+    "webmozart/assert": "^1.10"
   },
   "require-dev": {
     "dg/bypass-finals": "^1.3",
