@@ -52,7 +52,14 @@ services:
       MAILER_USER: ${API_MAILER_USER}
       MAILER_PASSWORD: ${API_MAILER_PASSWORD}
       MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: ${API_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://worfect.ru
+      JWT_ENCRYPTION_KEY: ${JWT_ENCRYPTION_KEY}
+      JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
+      JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
+    secrets:
+      - jwt_public_key
+      - jwt_private_key
 #    deploy:
 #      mode: replicated
 #      replicas: 1
@@ -75,7 +82,14 @@ services:
       MAILER_USER: ${API_MAILER_USER}
       MAILER_PASSWORD: ${API_MAILER_PASSWORD}
       MAILER_ENCRYPTION: tls
+      MAILER_FROM_EMAIL: ${API_MAILER_FROM_EMAIL}
       FRONTEND_URL: https://worfect.ru
+      JWT_ENCRYPTION_KEY: ${JWT_ENCRYPTION_KEY}
+      JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
+      JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
+    secrets:
+      - jwt_public_key
+      - jwt_private_key
     command: sh -c 'wait-for-it api-postgres:5432 -t 60 && php bin/app.php migrations:migrate --no-interaction'
     deploy:
       restart_policy:
@@ -99,3 +113,9 @@ services:
 
 volumes:
   api-postgres:
+
+secrets:
+  jwt_public_key:
+    file: ./secrets/jwt_public.key
+  jwt_private_key:
+    file: ./secrets/jwt_private.key

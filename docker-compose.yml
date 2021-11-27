@@ -53,8 +53,14 @@ services:
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
       FRONTEND_URL: http://localhost:8080
+      JWT_ENCRYPTION_KEY: secret
+      JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
+      JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
     volumes:
       - ./api:/app
+    secrets:
+      - jwt_public_key
+      - jwt_private_key
 
   api-php-cli:
     build:
@@ -74,8 +80,14 @@ services:
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
       FRONTEND_URL: http://localhost:8080
+      JWT_ENCRYPTION_KEY: secret
+      JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
+      JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
     volumes:
       - ./api:/app
+    secrets:
+      - jwt_public_key
+      - jwt_private_key
 
   api-postgres:
     image: postgres:12.2-alpine
@@ -110,3 +122,9 @@ networks:
       driver: default
       config:
         - subnet: 122.122.222.0/28
+
+secrets:
+  jwt_public_key:
+    file: ./docker/development/secrets/jwt_public.key
+  jwt_private_key:
+    file: ./docker/development/secrets/jwt_private.key

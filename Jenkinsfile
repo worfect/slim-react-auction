@@ -176,6 +176,9 @@ pipeline {
                     string(credentialsId: 'API_MAILER_USER', variable: 'API_MAILER_USER'),
                     string(credentialsId: 'API_MAILER_PASSWORD', variable: 'API_MAILER_PASSWORD'),
                     string(credentialsId: 'API_MAILER_FROM_EMAIL', variable: 'API_MAILER_FROM_EMAIL'),
+                    string(credentialsId: 'JWT_ENCRYPTION_KEY', variable: 'JWT_ENCRYPTION_KEY'),
+                    file(credentialsId: 'JWT_PUBLIC_KEY', variable: 'JWT_PUBLIC_KEY'),
+                    file(credentialsId: 'JWT_PRIVATE_KEY', variable: 'JWT_PRIVATE_KEY')
                 ]) {
                     sshagent (credentials: ['AUTH']) {
                         sh "BUILD_NUMBER=${env.BUILD_NUMBER} make deploy"
