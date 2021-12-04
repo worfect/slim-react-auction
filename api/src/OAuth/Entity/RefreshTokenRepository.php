@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\OAuth\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use League\OAuth2\Server\Entities\RefreshTokenEntityInterface;
@@ -62,5 +63,23 @@ final class RefreshTokenRepository implements RefreshTokenRepositoryInterface
                 ->andWhere('t.identifier = :identifier')
                 ->setParameter(':identifier', $id)
                 ->getQuery()->getSingleScalarResult() > 0;
+    }
+
+    public function removeAllForUser(string $userId): void
+    {
+        $this->em->createQueryBuilder()
+            ->delete(RefreshToken::class, 'rt')
+            ->andWhere('rt.userIdentifier < :user_id')
+            ->setParameter(':user_id', $userId)
+            ->getQuery()->execute();
+    }
+
+    public function removeAllExpired(DateTimeImmutable $now): void
+    {
+        $this->em->createQueryBuilder()
+            ->delete(RefreshToken::class, 'rt')
+            ->andWhere('rt.expiryDateTime < :date')
+            ->setParameter(':date', $now->format(DATE_ATOM))
+            ->getQuery()->execute();
     }
 }
