@@ -33,6 +33,7 @@ final class LogErrorHandler extends ErrorHandler
         $this->logger->error($this->exception->getMessage(), [
             'exception' => $this->exception,
             'url' => (string)$this->request->getUri(),
+            'trace' => $this->exception->getTrace(),
         ]);
     }
 }

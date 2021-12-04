@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Middleware\Auth;
+namespace App\Auth\Query\FindIdentityById;
 
 /**
  * @psalm-immutable
@@ -11,7 +11,7 @@ final class Identity
 {
     public function __construct(
         public string $id,
-        public string $role,
+        public string $role
     ) {
     }
 }

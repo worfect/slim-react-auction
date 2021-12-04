@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
@@ -24,13 +25,14 @@ return [
 
         $log = new Logger('API');
 
-        if ($config['stderr']) {
-            $log->pushHandler(new StreamHandler('php://stderr', $level));
+        $stream = 'php://stderr';
+        if ($config['file']) {
+            $stream = $config['file'];
         }
 
-        if (!empty($config['file'])) {
-            $log->pushHandler(new StreamHandler($config['file'], $level));
-        }
+        $handler = new StreamHandler($stream, $level);
+        $handler->setFormatter(new JsonFormatter());
+        $log->pushHandler($handler);
 
         return $log;
     },
@@ -39,7 +41,6 @@ return [
         'logger' => [
             'debug' => (bool)env('APP_DEBUG'),
             'file' => null,
-            'stderr' => true,
         ],
     ],
 ];

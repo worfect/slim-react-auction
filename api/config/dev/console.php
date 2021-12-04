@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Console\FixturesLoadCommand;
+use App\OAuth\Console\E2ETokenCommand;
 use Doctrine\Migrations;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Console\Command\SchemaTool;
@@ -33,6 +34,8 @@ return [
 
                 Migrations\Tools\Console\Command\DiffCommand::class,
                 Migrations\Tools\Console\Command\GenerateCommand::class,
+
+                E2ETokenCommand::class,
             ],
             'fixture_paths' => [
                 __DIR__ . '/../../src/Auth/Fixture',
