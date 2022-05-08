@@ -22,6 +22,9 @@ $commands = $container->get('config')['console']['commands'];
 
 $entityManager = $container->get(EntityManagerInterface::class);
 
+/**
+ * @psalm-suppress DeprecatedClass
+ */
 $cli->getHelperSet()->set(new EntityManagerHelper($entityManager), 'em');
 
 foreach ($commands as $name) {

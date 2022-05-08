@@ -20,4 +20,9 @@ final class Scope implements ScopeEntityInterface
 
         $this->setIdentifier($identifier);
     }
+
+    public function jsonSerialize(): mixed
+    {
+        return $this->getIdentifier();
+    }
 }

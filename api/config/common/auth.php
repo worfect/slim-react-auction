@@ -12,6 +12,9 @@ return [
     UserRepository::class => function (ContainerInterface $container): UserRepository {
         $em = $container->get(EntityManagerInterface::class);
         $repo = $em->getRepository(User::class);
+        /**
+         * @psalm-suppress InvalidArgument
+         */
         return new UserRepository($em, $repo);
     },
 
