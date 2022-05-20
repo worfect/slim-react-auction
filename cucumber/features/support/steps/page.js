@@ -5,9 +5,9 @@ const onPage = async function (uri) {
   return await this.page.goto('http://gateway:8080' + uri)
 }
 
-Given('I am on {string} page', onPage)
+Given('I am on {string} page', { wrapperOptions: { retry: 2 }, timeout: 30000 }, onPage)
 
-When('I open {string} page', onPage)
+When('I open {string} page', { wrapperOptions: { retry: 2 }, timeout: 30000 }, onPage)
 
 Then('I see {string}', async function (value) {
   await this.page.waitForFunction(
@@ -24,6 +24,11 @@ Then('I do not see {string}', async function (value) {
 
 Then('I see {string} element', async function (id) {
   await this.page.waitForSelector('[data-testid=' + id + ']')
+})
+
+Then('I do not see {string} element', async function (id) {
+  const elem = await this.page.$('[data-testid=' + id + ']')
+  expect(elem).to.be.a('null')
 })
 
 Then('I click {string} element', async function (id) {
