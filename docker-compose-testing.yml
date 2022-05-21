@@ -24,7 +24,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://gateway:8080
+      FRONTEND_URL: http://localhost:8080
       JWT_ENCRYPTION_KEY: secret
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
@@ -47,7 +47,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://gateway:8080
+      FRONTEND_URL: http://localhost:8080
       JWT_ENCRYPTION_KEY: secret
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
@@ -70,7 +70,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://gateway:8080
+      FRONTEND_URL: http://localhost:8080
       JWT_ENCRYPTION_KEY: secret
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
@@ -92,6 +92,7 @@ services:
     image: ${REGISTRY}/auction-cucumber-node-cli:${IMAGE_TAG}
     volumes:
       - ./cucumber/var:/app/var
+    network_mode: service:gateway
 
 secrets:
   jwt_public_key:
