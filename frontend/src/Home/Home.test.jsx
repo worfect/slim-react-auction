@@ -5,8 +5,8 @@ import { MemoryRouter } from 'react-router-dom'
 
 test('renders home', () => {
   render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
+    <MemoryRouter>
+      <Home />
+    </MemoryRouter>
   )
 })
