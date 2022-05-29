@@ -3,8 +3,6 @@ init-ci: d-down-clear \
 	api-clear frontend-clear cucumber-clear\
 	d-pull d-build d-up \
 	api-init frontend-init cucumber-init
-build-prod: build-gateway build-frontend build-api
-push-prod: push-gateway push-frontend push-api
 
 ########################################################################################################################
 
@@ -47,6 +45,9 @@ d-cli-run:
 	docker-compose run --rm api-php-cli $(p)
 
 ########################################################################################################################
+
+build-prod: build-gateway build-frontend build-api
+push-prod: push-gateway push-frontend push-api
 
 build-gateway:
 	docker --log-level=debug build --pull --file=gateway/docker/production/nginx/Dockerfile --tag=${REGISTRY}/auction-gateway:${IMAGE_TAG} gateway/docker
@@ -214,7 +215,9 @@ cucumber-smoke:
 
 ########################################################################################################################
 
-testing: testing-build testing-init testing-smoke testing-e2e testing-down-clear
+prod-test:
+	REGISTRY=localhost IMAGE_TAG=0 make testing
+testing: build-frontend build-api testing-init testing-smoke testing-e2e testing-down-clear
 testing-build: testing-build-gateway testing-build-testing-api-php-cli testing-build-cucumber
 
 testing-build-gateway:

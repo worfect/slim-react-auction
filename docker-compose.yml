@@ -5,9 +5,7 @@ services:
       context: gateway/docker
       dockerfile: development/nginx/Dockerfile
     ports:
-      - "8080:8080"
-      - "8081:8081"
-      - "8082:8082"
+      - "80:80"
 
   frontend:
     build:
@@ -18,6 +16,7 @@ services:
       context: frontend/docker/development/node
     environment:
       WDS_SOCKET_PORT: 0
+      REACT_APP_AUTH_URL: /api
     volumes:
       - ./frontend:/app
     command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && yarn start"
@@ -54,7 +53,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://localhost:8080
+      FRONTEND_URL: http://localhost
       JWT_ENCRYPTION_KEY: secret
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
@@ -81,7 +80,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://localhost:8080
+      FRONTEND_URL: http://localhost
       JWT_ENCRYPTION_KEY: secret
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key

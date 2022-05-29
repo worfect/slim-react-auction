@@ -2,9 +2,13 @@ version: "3.7"
 services:
   gateway:
     image: ${REGISTRY}/auction-testing-gateway:${IMAGE_TAG}
+    ports:
+      - "80:80"
 
   frontend:
     image: ${REGISTRY}/auction-frontend:${IMAGE_TAG}
+    environment:
+      REACT_APP_AUTH_URL: '/api'
 
   api:
     image: ${REGISTRY}/auction-api:${IMAGE_TAG}
@@ -24,7 +28,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://localhost:8080
+      FRONTEND_URL: http://localhost
       JWT_ENCRYPTION_KEY: secret
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
@@ -47,7 +51,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://localhost:8080
+      FRONTEND_URL: http://localhost
       JWT_ENCRYPTION_KEY: secret
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
@@ -70,7 +74,7 @@ services:
       MAILER_PASSWORD: secret
       MAILER_ENCRYPTION: tcp
       MAILER_FROM_EMAIL: mail@app.test
-      FRONTEND_URL: http://localhost:8080
+      FRONTEND_URL: http://localhost
       JWT_ENCRYPTION_KEY: secret
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key

@@ -5,15 +5,14 @@ import Home from '../Home'
 import Join from '../Join'
 import { NotFound } from '../Error'
 import Confirm from '../Join/Confirm'
-import OAuth from '../OAuth'
 import Success from '../Join/Success'
+import OAuth from '../OAuth'
 import { AuthProvider } from '../OAuth/Provider'
-
 function App() {
   return (
     <AuthProvider
-      authorizeUrl="/api/authorize"
-      tokenUrl="/api/token"
+      authorizeUrl={process.env.REACT_APP_AUTH_URL + '/authorize'}
+      tokenUrl={process.env.REACT_APP_AUTH_URL + '/token'}
       clientId="frontend"
       scope="common"
       redirectPath="/oauth"
