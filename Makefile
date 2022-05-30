@@ -84,7 +84,7 @@ deploy:
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_USER=${API_MAILER_USER}" >> .env'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_PASSWORD=${API_MAILER_PASSWORD}" >> .env'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_FROM_EMAIL=${API_MAILER_FROM_EMAIL}" >> .env'
-
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "SENTRY_DSN=${SENTRY_DSN}" >> .env'
 	ssh -o StrictHostKeyChecking=no  root@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
 	scp -o StrictHostKeyChecking=no -P ${PORT} ${JWT_PUBLIC_KEY} root@${HOST}:site_${BUILD_NUMBER}/secrets/jwt_public.key
 	scp -o StrictHostKeyChecking=no -P ${PORT} ${JWT_PRIVATE_KEY}  root@${HOST}:site_${BUILD_NUMBER}/secrets/jwt_private.key

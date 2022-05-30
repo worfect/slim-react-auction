@@ -2,8 +2,6 @@ version: "3.7"
 services:
   gateway:
     image: ${REGISTRY}/auction-testing-gateway:${IMAGE_TAG}
-    ports:
-      - "80:80"
 
   frontend:
     image: ${REGISTRY}/auction-frontend:${IMAGE_TAG}
