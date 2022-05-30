@@ -217,7 +217,7 @@ cucumber-smoke:
 
 prod-test:
 	REGISTRY=localhost IMAGE_TAG=0 make testing
-testing: build-frontend build-api testing-init testing-smoke testing-e2e testing-down-clear
+testing: testing-build build-frontend build-api testing-init testing-smoke testing-e2e testing-down-clear
 testing-build: testing-build-gateway testing-build-testing-api-php-cli testing-build-cucumber
 
 testing-build-gateway:
