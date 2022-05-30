@@ -69,6 +69,7 @@ services:
       JWT_ENCRYPTION_KEY: ${JWT_ENCRYPTION_KEY}
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
+      SENTRY_DSN: ${SENTRY_DSN}
     secrets:
       - jwt_public_key
       - jwt_private_key
@@ -99,6 +100,7 @@ services:
       JWT_ENCRYPTION_KEY: ${JWT_ENCRYPTION_KEY}
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
+      SENTRY_DSN: ${SENTRY_DSN}
     secrets:
       - jwt_public_key
       - jwt_private_key
@@ -142,6 +144,7 @@ services:
       JWT_ENCRYPTION_KEY: ${JWT_ENCRYPTION_KEY}
       JWT_PUBLIC_KEY_PATH: /run/secrets/jwt_public_key
       JWT_PRIVATE_KEY_PATH: /run/secrets/jwt_private_key
+      SENTRY_DSN: ${SENTRY_DSN}
     secrets:
       - jwt_public_key
       - jwt_private_key

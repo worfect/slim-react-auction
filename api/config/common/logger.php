@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\StreamHandler;
+use Monolog\Level;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -21,7 +22,7 @@ return [
          */
         $config = $container->get('config')['logger'];
 
-        $level = $config['debug'] ? Logger::DEBUG : Logger::INFO;
+        $level = $config['debug'] ? Level::Debug : Level::Info;
 
         $log = new Logger('API');
 
