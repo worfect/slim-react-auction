@@ -5,6 +5,6 @@
       state: present
     register: swarm_init_result
 
--   name: Store worker join token
-    set_fact:
-      worker_join_token: "{{ swarm_init_result.swarm_facts.JoinTokens.Worker }}"
+#-   name: Store worker join token
+#    set_fact:
+#      worker_join_token: "{{ swarm_init_result.swarm_facts.JoinTokens.Worker }}"

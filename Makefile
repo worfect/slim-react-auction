@@ -74,23 +74,12 @@ push-api:
 deploy:
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -rf site_${BUILD_NUMBER}'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}'
-	scp -o StrictHostKeyChecking=no -P ${PORT} docker-compose-production.yml root@${HOST}:site_${BUILD_NUMBER}/docker-compose.yml
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "COMPOSE_PROJECT_NAME=auction" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "REGISTRY=${REGISTRY}" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "IMAGE_TAG=${IMAGE_TAG}" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_DB_PASSWORD=${API_DB_PASSWORD}" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_HOST=${API_MAILER_HOST}" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_PORT=${API_MAILER_PORT}" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_USER=${API_MAILER_USER}" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_PASSWORD=${API_MAILER_PASSWORD}" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "API_MAILER_FROM_EMAIL=${API_MAILER_FROM_EMAIL}" >> .env'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && echo "SENTRY_DSN=${SENTRY_DSN}" >> .env'
-	ssh -o StrictHostKeyChecking=no  root@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
-	scp -o StrictHostKeyChecking=no -P ${PORT} ${JWT_PUBLIC_KEY} root@${HOST}:site_${BUILD_NUMBER}/secrets/jwt_public.key
-	scp -o StrictHostKeyChecking=no -P ${PORT} ${JWT_PRIVATE_KEY}  root@${HOST}:site_${BUILD_NUMBER}/secrets/jwt_private.key
 
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose pull'
-	ssh -o StrictHostKeyChecking=no root@${HOST} 'cd site_${BUILD_NUMBER} && docker-compose up -d --build --remove-orphans'
+	envsubst < docker-compose-production.yml > docker-compose-production-env.yml
+	scp -o StrictHostKeyChecking=no -P ${PORT} docker-compose-production-env.yml root@${HOST}:site_${BUILD_NUMBER}/docker-compose.yml
+	rm -f docker-compose-production-env.yml
+
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml auction --with-registry-auth --prune'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -f site'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
 
@@ -98,9 +87,7 @@ deploy-clean:
 	rm -f docker-compose-production-env.yml
 
 rollback:
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose pull'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker-compose up --build --remove-orphans -d'	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -f site'
-	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml auction --with-registry-auth --prune'
 
 ########################################################################################################################
 

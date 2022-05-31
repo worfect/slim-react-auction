@@ -1,54 +1,52 @@
 version: "3.7"
 services:
-#  swarm-cronjob:
-#    image: crazymax/swarm-cronjob:latest
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    environment:
-#      LOG_LEVEL: info
-#    deploy:
-#      placement:
-#        constraints: [ node.role == manager ]
+  swarm-cronjob:
+    image: crazymax/swarm-cronjob:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      LOG_LEVEL: info
+    deploy:
+      placement:
+        constraints: [ node.role == manager ]
 
   gateway:
     image: ${REGISTRY}/auction-gateway:${IMAGE_TAG}
-    restart: always
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt:ro
       - /var/www/html:/var/www/html:ro
     ports:
       - "80:80"
       - "443:443"
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#      update_config:
-#        parallelism: 1
-#        delay: 10s
-#      placement:
-#        constraints: [ node.role == manager ]
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      placement:
+        constraints: [ node.role == manager ]
 
   frontend:
     image: ${REGISTRY}/auction-frontend:${IMAGE_TAG}
     restart: always
     environment:
       REACT_APP_AUTH_URL: https://api.worfect.ru
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#      update_config:
-#        parallelism: 1
-#        delay: 10s
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
 
   api:
     image: ${REGISTRY}/auction-api:${IMAGE_TAG}
-    restart: always
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#      update_config:
-#        parallelism: 1
-#        delay: 5s
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 5s
 
   api-php-fpm:
     image: ${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG}
@@ -73,16 +71,15 @@ services:
     secrets:
       - jwt_public_key
       - jwt_private_key
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#      update_config:
-#        parallelism: 1
-#        delay: 5s
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 5s
 
   api-migration:
     image: ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
-    restart: on-failure
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
@@ -105,12 +102,12 @@ services:
       - jwt_public_key
       - jwt_private_key
     command: sh -c 'wait-for-it api-postgres:5432 -t 60 && php bin/app.php migrations:migrate --no-interaction'
-#    deploy:
-#      restart_policy:
-#        condition: on-failure
-#        delay: 5s
-#        max_attempts: 5
-#        window: 120s
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+        window: 120s
 
   api-postgres:
     image: postgres:12.2-alpine
@@ -120,10 +117,9 @@ services:
       POSTGRES_DB: app
     volumes:
       - api-postgres:/var/lib/postgresql/data
-#    deploy:
-#      placement:
-#        constraints: [ node.role == manager ]
-#      endpoint_mode: dnsrr
+    deploy:
+      placement:
+        constraints: [ node.role == manager ]
 
   api-oauth-clear-expired:
     image: ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
@@ -149,14 +145,14 @@ services:
       - jwt_public_key
       - jwt_private_key
     command: sh -c 'wait-for-it api-postgres:5432 -t 60 && php bin/app.php oauth:clear-expired'
-#    deploy:
-#      labels:
-#        - swarm.cronjob.enable=true
-#        - swarm.cronjob.schedule=0 * * * *
-#        - swarm.cronjob.skip-running=true
-#      replicas: 0
-#      restart_policy:
-#        condition: none
+    deploy:
+      labels:
+        - swarm.cronjob.enable=true
+        - swarm.cronjob.schedule=0 * * * *
+        - swarm.cronjob.skip-running=true
+      replicas: 0
+      restart_policy:
+        condition: none
 
 volumes:
   api-postgres:
