@@ -79,9 +79,14 @@ deploy:
 	scp -o StrictHostKeyChecking=no -P ${PORT} docker-compose-production-env.yml root@${HOST}:site_${BUILD_NUMBER}/docker-compose.yml
 	rm -f docker-compose-production-env.yml
 
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml auction --with-registry-auth --prune'
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
+	scp -o StrictHostKeyChecking=no -P ${PORT} ${JWT_PUBLIC_KEY} root@${HOST}:site_${BUILD_NUMBER}/secrets/jwt_public.key
+	scp -o StrictHostKeyChecking=no -P ${PORT} ${JWT_PRIVATE_KEY} root@${HOST}:site_${BUILD_NUMBER}/secrets/jwt_private.key
+
+	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml auction --with-registry-auth --prune'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'rm -f site'
 	ssh -o StrictHostKeyChecking=no root@${HOST} -p ${PORT} 'ln -sr site_${BUILD_NUMBER} site'
+
 
 deploy-clean:
 	rm -f docker-compose-production-env.yml
