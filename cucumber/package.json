@@ -3,23 +3,27 @@
   "scripts": {
     "smoke": "cucumber-js --tags @smoke --fail-fast",
     "e2e": "cucumber-js --format json:var/report.json",
-    "lint": "eslint --ext .js features",
-    "lint-fix": "eslint --fix --ext .js features",
+    "lint": "eslint --ext .js,.ts features",
+    "lint-fix": "eslint --fix --ext .js,.ts features",
     "report": "node reporter.js"
   },
   "dependencies": {
-    "chai": "^4.3.6",
-    "cucumber": "^7.0.0-rc.0",
-    "puppeteer": "^13.7.0"
+    "@cucumber/cucumber": "^8.4.0",
+    "chai": "^4.2.0",
+    "puppeteer": "^15.3.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
     "cucumber-html-reporter": "^5.5.0",
-    "eslint": "^8.15.0",
+    "eslint": "^8.19.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-n": "^15.2.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-standard": "^5.0.0"
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
   }
 }
